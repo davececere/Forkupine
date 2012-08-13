@@ -23,5 +23,6 @@
       <artifactId>jsr166y</artifactId>
       <version>1.7.0</version>
     </dependency>
+    <!-- add junit -->
   </dependencies>
 </project>

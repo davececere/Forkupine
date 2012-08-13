@@ -20,5 +20,5 @@
 package com.cecere.forkupine.data;
 
 public interface Some<T> extends Data {
-
+	public T get();
 }

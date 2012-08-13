@@ -16,26 +16,33 @@
     You should have received a copy of the GNU Lesser General Public License
     along with Forkupine.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package com.cecere.forkupine.process;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.cecere.forkupine.process.execute;
 
 import com.cecere.forkupine.data.Data;
-import com.cecere.forkupine.data.Some;
+import com.cecere.forkupine.process.Spine;
+import com.cecere.forkupine.process.SpineImpl;
 
-abstract public class SpineImpl<I extends Data,O extends Data> implements Spine<I,O> {
-	protected List<Spine<O,? extends Data>> nextNodes;
+/**
+ * @author dave
+ *
+ */
+public class DepthFirstSerialExecutingSpine<I extends Data,O extends Data> extends SpineImpl<I, O> {
+	private Spine<I,O> delegate;
 	
-	public SpineImpl(){
-		nextNodes = new ArrayList<Spine<O,? extends Data>>();
+	public DepthFirstSerialExecutingSpine(Spine<I,O> delegate){
+		super();
+		this.delegate = delegate;
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.cecere.forkupine.process.Spine#process(com.cecere.forkupine.data.Data)
+	 */
+	public O process(I input) {
+		O output = delegate.process(input);
+		for(Spine<O, ? extends Data> s: this.nextNodes){
+			s.process(output);
+		}
+		return output; //do we need to return O? maybe delegate and executors are different interfaces
 	}
 
-	public <V extends Data> Spine<I, O> flowsInto(Spine<O, V> child) {
-		nextNodes.add(child);
-		return this;
-	}
-
-	abstract public O process(I input);
 }

@@ -16,26 +16,23 @@
     You should have received a copy of the GNU Lesser General Public License
     along with Forkupine.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package com.cecere.forkupine.process;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.cecere.forkupine.execute;
 
 import com.cecere.forkupine.data.Data;
-import com.cecere.forkupine.data.Some;
+import com.cecere.forkupine.process.Spine;
 
-abstract public class SpineImpl<I extends Data,O extends Data> implements Spine<I,O> {
-	protected List<Spine<O,? extends Data>> nextNodes;
-	
-	public SpineImpl(){
-		nextNodes = new ArrayList<Spine<O,? extends Data>>();
+/**
+ * @author dave
+ * @param <I>
+ *
+ */
+public class SerialSpineExecutorImpl<I extends Data,O extends Data> implements SpineExecutor<I, O> {
+
+	/* (non-Javadoc)
+	 * @see com.cecere.forkupine.execute.SpineExecutor#execute(com.cecere.forkupine.process.Spine, com.cecere.forkupine.data.Data)
+	 */
+	public void execute(Spine<I, O> head, I input) {
+		head.process(input);
 	}
 
-	public <V extends Data> Spine<I, O> flowsInto(Spine<O, V> child) {
-		nextNodes.add(child);
-		return this;
-	}
-
-	abstract public O process(I input);
 }

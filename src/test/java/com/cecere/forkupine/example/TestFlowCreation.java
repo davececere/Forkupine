@@ -19,18 +19,32 @@
 
 package com.cecere.forkupine.example;
 
+import org.junit.Test;
+
 import com.cecere.forkupine.process.Spine;
 import com.cecere.forkupine.process.Spine2;
+import com.cecere.forkupine.process.execute.DepthFirstSerialExecutorFactory;
+import com.cecere.forkupine.process.execute.ExecutorFactory;
 import com.cecere.forkupine.data.None;
 import com.cecere.forkupine.data.Some;
+import com.cecere.forkupine.data.SomeImpl;
+import com.cecere.forkupine.execute.SpineExecutor;
+
+import com.cecere.forkupine.example.spine.*;
 
 public class TestFlowCreation {
+	ExecutorFactory factory = new DepthFirstSerialExecutorFactory();
 
+	@Test
 	public void testCreateFlow(){
-		Spine<Some<String>,Some<Integer>> head = null;
-		Spine<Some<Integer>,Some<Float>> next1 = null;
-		Spine<Some<Integer>,Some<Integer>> next2 = null;
-		Spine2<Some<Float>,Some<Integer>,None> tail = null;
+		SpineExecutor<Some<String>,Some<Integer>> executor = null;
+		
+		Spine<Some<String>,Some<Integer>> head = factory.spineExecutor(new StringLengthSpine());
+		Spine<Some<Integer>,Some<Float>> next1 = factory.spineExecutor(new DivideBy1000Spine());
+		Spine<Some<Integer>,Some<Integer>> next2 = factory.spineExecutor(new Add100Spine());
+		Spine2<Some<Float>,Some<Integer>,None> tail = factory.spine2Executor(new LoggingSpine());
+		
+		Some<String> testString = new SomeImpl<String>("yo ho ho and a bottle of rum");
 		
 		head.flowsInto(
 			next1.flowsInto(
@@ -41,5 +55,8 @@ public class TestFlowCreation {
 				tail.asParam2()
 			)
 		);
+		
+		Some<Integer> nullOutPut = head.process(testString); //weird about the null output
 	}
+	
 }
