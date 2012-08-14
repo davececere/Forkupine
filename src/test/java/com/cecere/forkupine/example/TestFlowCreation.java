@@ -40,7 +40,7 @@ public class TestFlowCreation {
 		Spine<Some<String>,Some<Integer>> head = factory.spineExecutor(new StringLengthSpine());
 		Spine<Some<Integer>,Some<Float>> next1 = factory.spineExecutor(new DivideBy1000Spine());
 		Spine<Some<Integer>,Some<Integer>> next2 = factory.spineExecutor(new Add100Spine());
-		Spine2<Some<Float>,Some<Integer>,None> tail = factory.spine2Executor(new LoggingSpine());
+		Spine2<Some<Float>,Some<Integer>,None> tail = factory.spine2Executor(new LoggingFloatIntSpine());
 		
 		Some<String> testString = new SomeImpl<String>("yo ho ho and a bottle of rum");
 		
@@ -52,6 +52,36 @@ public class TestFlowCreation {
 			next2.flowsInto(
 				tail.asParam2()
 			)
+		);
+		
+		head.process(testString);
+	}
+	
+	@Test
+	public void testCreateFlow2(){
+		
+		Spine<Some<String>,Some<Integer>> head = factory.spineExecutor(new StringLengthSpine());
+		Spine<Some<Integer>,Some<Float>> next1 = factory.spineExecutor(new DivideBy1000Spine());
+		Spine<Some<Integer>,Some<Integer>> next2 = factory.spineExecutor(new Add100Spine());
+		Spine2<Some<Float>,Some<Integer>,Some<Integer>> tail = factory.spine2Executor(new LoggingFloatIntSpineReturnLengthPrinted());
+		Spine<Some<Integer>,Some<Integer>> afterTail = factory.spineExecutor(new Add100Spine());
+		Spine<Some<Integer>,None> printInt = factory.spineExecutor(new LoggingIntSpine());
+		
+		Some<String> testString = new SomeImpl<String>("yo ho ho and a bottle of rum");
+		
+		head.flowsInto(
+			next1.flowsInto(
+				tail.asParam1()
+			)
+		).flowsInto(
+			next2.flowsInto(
+				tail.asParam2()
+			)
+		);
+		
+		//need to start tree over for spine2s instead of using flowsInto after asParam() calls. should we fix this?
+		tail.flowsInto(
+				afterTail.flowsInto(printInt)
 		);
 		
 		head.process(testString);

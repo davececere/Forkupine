@@ -22,6 +22,7 @@ import com.cecere.forkupine.data.Data;
 import com.cecere.forkupine.data.None;
 import com.cecere.forkupine.data.NoneImpl;
 import com.cecere.forkupine.data.Some;
+import com.cecere.forkupine.data.process.DataFlowProcessor;
 import com.cecere.forkupine.data.process.DataFlowProcessor2;
 import com.cecere.forkupine.process.Spine;
 import com.cecere.forkupine.process.Spine2;
@@ -30,14 +31,14 @@ import com.cecere.forkupine.process.Spine2;
  * @author dave
  *
  */
-public class LoggingSpine implements DataFlowProcessor2<Some<Float>,Some<Integer>,None>{
+public class LoggingIntSpine implements DataFlowProcessor<Some<Integer>,None>{
 
 	/* (non-Javadoc)
 	 * @see com.cecere.forkupine.process.Spine2#process(com.cecere.forkupine.data.Data, com.cecere.forkupine.data.Data)
 	 */
 	@Override
-	public None process(Some<Float> input1, Some<Integer> input2) {
-		System.out.println("float: "+input1.get()+" - integer: "+input2.get());
+	public None process(Some<Integer> input1) {
+		System.out.println("integer: "+input1.get());
 		return new NoneImpl();
 	}
 }

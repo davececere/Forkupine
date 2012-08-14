@@ -16,9 +16,13 @@
     You should have received a copy of the GNU Lesser General Public License
     along with Forkupine.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.cecere.forkupine.process.parameter;
+package com.cecere.forkupine.example.spine;
 
 import com.cecere.forkupine.data.Data;
+import com.cecere.forkupine.data.None;
+import com.cecere.forkupine.data.NoneImpl;
+import com.cecere.forkupine.data.Some;
+import com.cecere.forkupine.data.process.DataFlowProcessor2;
 import com.cecere.forkupine.process.Spine;
 import com.cecere.forkupine.process.Spine2;
 
@@ -26,33 +30,14 @@ import com.cecere.forkupine.process.Spine2;
  * @author dave
  *
  */
-public class Spine2Parameter<I extends Data> implements Spine<I, I> {
-	private I data; //store the data
-	/**
-	 * @return the data
-	 */
-	public I getData() {
-		return data;
-	}
-
-	private Spine2<? extends Data,? extends Data,? extends Data> delegate;
-
-	public Spine2Parameter(Spine2<? extends Data,? extends Data,? extends Data> delegate){
-		this.delegate = delegate;
-	}
-	/* (non-Javadoc)
-	 * @see com.cecere.forkupine.process.Spine#process(com.cecere.forkupine.data.Data)
-	 */
-	public void process(I input) {
-		data = input;
-		delegate.process(null, null);
-	}
+public class LoggingFloatIntSpine implements DataFlowProcessor2<Some<Float>,Some<Integer>,None>{
 
 	/* (non-Javadoc)
-	 * @see com.cecere.forkupine.process.Spine#flowsInto(com.cecere.forkupine.process.Spine)
+	 * @see com.cecere.forkupine.process.Spine2#process(com.cecere.forkupine.data.Data, com.cecere.forkupine.data.Data)
 	 */
-	public <V extends Data> Spine<I, I> flowsInto(Spine<I, V> child) {
-		throw new RuntimeException("operation not supported for parameter adaptor");
+	@Override
+	public None process(Some<Float> input1, Some<Integer> input2) {
+		System.out.println("float: "+input1.get()+" - integer: "+input2.get());
+		return new NoneImpl();
 	}
-
 }
