@@ -21,28 +21,21 @@ package com.cecere.forkupine.example.spine;
 import com.cecere.forkupine.data.Data;
 import com.cecere.forkupine.data.Some;
 import com.cecere.forkupine.data.SomeImpl;
+import com.cecere.forkupine.data.process.DataFlowProcessor;
 import com.cecere.forkupine.process.Spine;
 
 /**
  * @author dave
  *
  */
-public class DivideBy1000Spine implements Spine<Some<Integer>,Some<Float>>{
+public class DivideBy1000Spine implements DataFlowProcessor<Some<Integer>,Some<Float>>{
 
 	/* (non-Javadoc)
 	 * @see com.cecere.forkupine.process.Spine#process(com.cecere.forkupine.data.Data)
 	 */
+	@Override
 	public Some<Float> process(Some<Integer> input) {
 		return new SomeImpl<Float>(new Float(input.get() / 1000f));
-	}
-
-	/* (non-Javadoc)
-	 * @see com.cecere.forkupine.process.Spine#flowsInto(com.cecere.forkupine.process.Spine)
-	 */
-	public <V extends Data> Spine<Some<Integer>, Some<Float>> flowsInto(
-			Spine<Some<Float>, V> child) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

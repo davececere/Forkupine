@@ -22,6 +22,7 @@ import com.cecere.forkupine.data.Data;
 import com.cecere.forkupine.data.None;
 import com.cecere.forkupine.data.NoneImpl;
 import com.cecere.forkupine.data.Some;
+import com.cecere.forkupine.data.process.DataFlowProcessor2;
 import com.cecere.forkupine.process.Spine;
 import com.cecere.forkupine.process.Spine2;
 
@@ -29,39 +30,14 @@ import com.cecere.forkupine.process.Spine2;
  * @author dave
  *
  */
-public class LoggingSpine implements Spine2<Some<Float>,Some<Integer>,None>{
+public class LoggingSpine implements DataFlowProcessor2<Some<Float>,Some<Integer>,None>{
 
 	/* (non-Javadoc)
 	 * @see com.cecere.forkupine.process.Spine2#process(com.cecere.forkupine.data.Data, com.cecere.forkupine.data.Data)
 	 */
+	@Override
 	public None process(Some<Float> input1, Some<Integer> input2) {
 		System.out.println("float: "+input1.get()+" - integer: "+input2.get());
 		return new NoneImpl();
 	}
-
-	/* (non-Javadoc)
-	 * @see com.cecere.forkupine.process.Spine2#flowsInto(com.cecere.forkupine.process.Spine)
-	 */
-	public <V extends Data> Spine2<Some<Float>, Some<Integer>, None> flowsInto(
-			Spine<None, V> child) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see com.cecere.forkupine.process.Spine2#asParam1()
-	 */
-	public Spine<Some<Float>, ?> asParam1() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see com.cecere.forkupine.process.Spine2#asParam2()
-	 */
-	public Spine<Some<Integer>, ?> asParam2() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

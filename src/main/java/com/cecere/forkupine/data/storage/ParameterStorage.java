@@ -16,19 +16,16 @@
     You should have received a copy of the GNU Lesser General Public License
     along with Forkupine.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.cecere.forkupine.process.execute;
+package com.cecere.forkupine.data.storage;
 
 import com.cecere.forkupine.data.Data;
-import com.cecere.forkupine.data.process.DataFlowProcessor;
-import com.cecere.forkupine.data.process.DataFlowProcessor2;
-import com.cecere.forkupine.process.Spine;
-import com.cecere.forkupine.process.Spine2;
+import com.cecere.forkupine.process.parameter.Spine2Parameter;
 
 /**
  * @author dave
  *
  */
-public interface ExecutorFactory {
-	public <I extends Data, O extends Data> Spine<I,O> spineExecutor(DataFlowProcessor<I,O> rawSpine);
-	public <A extends Data, B extends Data, O extends Data> Spine2<A,B,O> spine2Executor(DataFlowProcessor2<A,B,O> rawSpine);
+public interface ParameterStorage {
+	public Spine2Parameter<? extends Data> getParameter(String processId, String paramId);
+	public void putParameter(String processId, String paramId, Spine2Parameter<? extends Data> param);
 }

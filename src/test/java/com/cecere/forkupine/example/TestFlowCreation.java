@@ -28,7 +28,6 @@ import com.cecere.forkupine.process.execute.ExecutorFactory;
 import com.cecere.forkupine.data.None;
 import com.cecere.forkupine.data.Some;
 import com.cecere.forkupine.data.SomeImpl;
-import com.cecere.forkupine.execute.SpineExecutor;
 
 import com.cecere.forkupine.example.spine.*;
 
@@ -37,7 +36,6 @@ public class TestFlowCreation {
 
 	@Test
 	public void testCreateFlow(){
-		SpineExecutor<Some<String>,Some<Integer>> executor = null;
 		
 		Spine<Some<String>,Some<Integer>> head = factory.spineExecutor(new StringLengthSpine());
 		Spine<Some<Integer>,Some<Float>> next1 = factory.spineExecutor(new DivideBy1000Spine());
@@ -56,7 +54,7 @@ public class TestFlowCreation {
 			)
 		);
 		
-		Some<Integer> nullOutPut = head.process(testString); //weird about the null output
+		head.process(testString);
 	}
 	
 }

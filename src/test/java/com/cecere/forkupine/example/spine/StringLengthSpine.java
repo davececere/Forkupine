@@ -21,27 +21,20 @@ package com.cecere.forkupine.example.spine;
 import com.cecere.forkupine.data.Data;
 import com.cecere.forkupine.data.Some;
 import com.cecere.forkupine.data.SomeImpl;
+import com.cecere.forkupine.data.process.DataFlowProcessor;
 import com.cecere.forkupine.process.Spine;
 
 /**
  * @author dave
  *
  */
-public class StringLengthSpine implements Spine<Some<String>, Some<Integer>> {
+public class StringLengthSpine implements DataFlowProcessor<Some<String>, Some<Integer>> {
 
 	/* (non-Javadoc)
 	 * @see com.cecere.forkupine.process.Spine#process(com.cecere.forkupine.data.Data)
 	 */
+	@Override
 	public Some<Integer> process(Some<String> input) {
 		return new SomeImpl<Integer>(input.get().length());
 	}
-
-	/* (non-Javadoc)
-	 * @see com.cecere.forkupine.process.Spine#flowsInto(com.cecere.forkupine.process.Spine)
-	 */
-	public <V extends Data> Spine<Some<String>, Some<Integer>> flowsInto(Spine<Some<Integer>, V> child) {
-		// TODO Auto-generated method stub
-		return null; //TODO: we dont need this on implementations
-	}
-
 }

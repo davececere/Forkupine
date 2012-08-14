@@ -43,10 +43,9 @@ public class Spine2Parameter<I extends Data> implements Spine<I, I> {
 	/* (non-Javadoc)
 	 * @see com.cecere.forkupine.process.Spine#process(com.cecere.forkupine.data.Data)
 	 */
-	public I process(I input) {
+	public void process(I input) {
 		data = input;
-		delegate.process(null, null); //TODO: the spine2 delegate will somehow need to check its parameters if they are all filled
-		return input;
+		delegate.process(null, null);
 	}
 
 	/* (non-Javadoc)

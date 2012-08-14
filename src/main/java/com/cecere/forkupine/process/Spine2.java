@@ -23,7 +23,7 @@ import com.cecere.forkupine.data.Data;
 
 
 public interface Spine2<A extends Data,B extends Data, O extends Data> {
-	public O process(A input1, B input2);
+	public void process(A input1, B input2);
 	public <V extends Data> Spine2<A,B,O> flowsInto(Spine<O,V> child);
 	public Spine<A,?> asParam1();
 	public Spine<B,?> asParam2();

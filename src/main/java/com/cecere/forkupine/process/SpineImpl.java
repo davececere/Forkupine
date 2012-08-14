@@ -37,5 +37,5 @@ abstract public class SpineImpl<I extends Data,O extends Data> implements Spine<
 		return this;
 	}
 
-	abstract public O process(I input);
+	abstract public void process(I input);
 }

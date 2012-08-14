@@ -19,6 +19,7 @@
 package com.cecere.forkupine.process.execute;
 
 import com.cecere.forkupine.data.Data;
+import com.cecere.forkupine.data.process.DataFlowProcessor;
 import com.cecere.forkupine.process.Spine;
 import com.cecere.forkupine.process.SpineImpl;
 
@@ -27,9 +28,9 @@ import com.cecere.forkupine.process.SpineImpl;
  *
  */
 public class DepthFirstSerialExecutingSpine<I extends Data,O extends Data> extends SpineImpl<I, O> {
-	private Spine<I,O> delegate;
+	private DataFlowProcessor<I,O> delegate;
 	
-	public DepthFirstSerialExecutingSpine(Spine<I,O> delegate){
+	public DepthFirstSerialExecutingSpine(DataFlowProcessor<I,O> delegate){
 		super();
 		this.delegate = delegate;
 	}
@@ -37,12 +38,11 @@ public class DepthFirstSerialExecutingSpine<I extends Data,O extends Data> exten
 	/* (non-Javadoc)
 	 * @see com.cecere.forkupine.process.Spine#process(com.cecere.forkupine.data.Data)
 	 */
-	public O process(I input) {
+	public void process(I input) {
 		O output = delegate.process(input);
 		for(Spine<O, ? extends Data> s: this.nextNodes){
 			s.process(output);
 		}
-		return output; //do we need to return O? maybe delegate and executors are different interfaces
 	}
 
 }
