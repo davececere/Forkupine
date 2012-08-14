@@ -19,6 +19,8 @@
 package com.cecere.forkupine.process.execute;
 
 import com.cecere.forkupine.data.Data;
+import com.cecere.forkupine.data.process.DataFlowProcessor;
+import com.cecere.forkupine.data.process.DataFlowProcessor2;
 import com.cecere.forkupine.process.Spine;
 import com.cecere.forkupine.process.Spine2;
 
@@ -31,14 +33,14 @@ public class DepthFirstSerialExecutorFactory implements ExecutorFactory {
 	/* (non-Javadoc)
 	 * @see com.cecere.forkupine.process.execute.ExecutorFactory#spineExecutor(com.cecere.forkupine.process.Spine)
 	 */
-	public <I extends Data, O extends Data> Spine<I, O> spineExecutor(Spine<I, O> rawSpine) {
+	public <I extends Data, O extends Data> Spine<I, O> spineExecutor(DataFlowProcessor<I, O> rawSpine) {
 		return new DepthFirstSerialExecutingSpine(rawSpine);
 	}
 
 	/* (non-Javadoc)
 	 * @see com.cecere.forkupine.process.execute.ExecutorFactory#spine2Executor(com.cecere.forkupine.process.Spine2)
 	 */
-	public <A extends Data, B extends Data, O extends Data> Spine2<A, B, O> spine2Executor(Spine2<A, B, O> rawSpine) {
+	public <A extends Data, B extends Data, O extends Data> Spine2<A, B, O> spine2Executor(DataFlowProcessor2<A, B, O> rawSpine) {
 		return new DepthFirstSerialExecutingSpine2(rawSpine);
 	}
 

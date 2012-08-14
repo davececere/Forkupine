@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.cecere.forkupine.data.Data;
-import com.cecere.forkupine.data.Some;
 import com.cecere.forkupine.process.parameter.Spine2Parameter;
 
 abstract public class Spine2Impl<A extends Data,B extends Data,O extends Data> implements Spine2<A,B,O> {
@@ -49,5 +48,5 @@ abstract public class Spine2Impl<A extends Data,B extends Data,O extends Data> i
 		return param2;
 	}
 	
-	abstract public O process(A input1,B input2);
+	abstract public void process(A input1,B input2);
 }

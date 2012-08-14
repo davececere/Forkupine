@@ -19,6 +19,7 @@
 package com.cecere.forkupine.process.execute;
 
 import com.cecere.forkupine.data.Data;
+import com.cecere.forkupine.data.process.DataFlowProcessor2;
 import com.cecere.forkupine.process.Spine;
 import com.cecere.forkupine.process.Spine2;
 import com.cecere.forkupine.process.Spine2Impl;
@@ -29,9 +30,9 @@ import com.cecere.forkupine.process.SpineImpl;
  *
  */
 public class DepthFirstSerialExecutingSpine2<A extends Data,B extends Data,O extends Data> extends Spine2Impl<A,B,O> {
-	private Spine2<A,B,O> delegate;
+	private DataFlowProcessor2<A,B,O> delegate;
 	
-	public DepthFirstSerialExecutingSpine2(Spine2<A,B,O> delegate){
+	public DepthFirstSerialExecutingSpine2(DataFlowProcessor2<A,B,O> delegate){
 		super();
 		this.delegate = delegate;
 	}
@@ -39,19 +40,17 @@ public class DepthFirstSerialExecutingSpine2<A extends Data,B extends Data,O ext
 	/* (non-Javadoc)
 	 * @see com.cecere.forkupine.process.Spine#process(com.cecere.forkupine.data.Data)
 	 */
-	public O process(A input1,B input2) {
+	public void process(A input1,B input2) {
 		//ignore inputs and use parameters
 		A cachedInput1 = this.param1.getData();
 		B cachedInput2 = this.param2.getData();
 		//we get called every time a parameter is updated so this will fail until the last param is fulfilled
-		if(cachedInput1 == null || cachedInput2 == null)
-			return null; //TODO: can we return null?
-		
-		O output = delegate.process(cachedInput1,cachedInput2);
-		for(Spine<O, ? extends Data> s: this.nextNodes){
-			s.process(output);
+		if(cachedInput1 != null && cachedInput2 != null) {
+			O output = delegate.process(cachedInput1,cachedInput2);
+			for(Spine<O, ? extends Data> s: this.nextNodes){
+				s.process(output);
+			}
 		}
-		return output; //TODO: do we need to return O? maybe delegate and executors are different interfaces
 	}
 
 }

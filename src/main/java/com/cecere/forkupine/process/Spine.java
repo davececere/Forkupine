@@ -22,6 +22,6 @@ package com.cecere.forkupine.process;
 import com.cecere.forkupine.data.Data;
 
 public interface Spine<I extends Data, O extends Data> {
-	public O process(I input);
+	public void process(I input);
 	public <V extends Data> Spine<I,O> flowsInto(Spine<O,V> child);
 }
