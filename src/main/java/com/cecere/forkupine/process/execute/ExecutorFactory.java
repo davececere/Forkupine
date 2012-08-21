@@ -29,6 +29,7 @@ import com.cecere.forkupine.process.Spine2;
  *
  */
 public interface ExecutorFactory {
-	public <I extends Data, O extends Data> Spine<I,O> spineExecutor(DataFlowProcessor<I,O> rawSpine);
-	public <A extends Data, B extends Data, O extends Data> Spine2<A,B,O> spine2Executor(DataFlowProcessor2<A,B,O> rawSpine);
+	public <I extends Data, O extends Data> Spine<I,O> serialSpineExecutor(DataFlowProcessor<I,O> rawSpine);
+	public <I extends Data, O extends Data> Spine<I,O> isolatedSpineExecutor(DataFlowProcessor<I,O> rawSpine);
+	public <A extends Data, B extends Data, O extends Data> Spine2<A,B,O> serialSpine2Executor(DataFlowProcessor2<A,B,O> rawSpine);
 }

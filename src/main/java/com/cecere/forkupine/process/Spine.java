@@ -20,8 +20,12 @@
 package com.cecere.forkupine.process;
 
 import com.cecere.forkupine.data.Data;
+import com.cecere.forkupine.process.forkjoin.RecursiveSpineImpl;
 
 public interface Spine<I extends Data, O extends Data> {
-	public void process(I input);
-	public <V extends Data> Spine<I,O> flowsInto(Spine<O,V> child);
+	public O process(I input);
+	public Spine<I,O> flowsInto(Spine<O,? extends Data> child);
+	public void flowsFrom(Spine<? extends Data,I> parent);
+	public Spine<? extends Data, I> getPrevNode();
+	public RecursiveSpineImpl<I,O> toRecursiveSpine();
 }

@@ -38,11 +38,12 @@ public class DepthFirstSerialExecutingSpine<I extends Data,O extends Data> exten
 	/* (non-Javadoc)
 	 * @see com.cecere.forkupine.process.Spine#process(com.cecere.forkupine.data.Data)
 	 */
-	public void process(I input) {
+	public O process(I input) {
 		O output = delegate.process(input);
 		for(Spine<O, ? extends Data> s: this.nextNodes){
 			s.process(output);
 		}
+		return output;
 	}
 
 }

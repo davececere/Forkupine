@@ -23,7 +23,7 @@ import org.junit.Test;
 
 import com.cecere.forkupine.process.Spine;
 import com.cecere.forkupine.process.Spine2;
-import com.cecere.forkupine.process.execute.DepthFirstSerialExecutorFactory;
+import com.cecere.forkupine.process.execute.ExecutorFactoryImpl;
 import com.cecere.forkupine.process.execute.ExecutorFactory;
 import com.cecere.forkupine.data.None;
 import com.cecere.forkupine.data.Some;
@@ -32,15 +32,15 @@ import com.cecere.forkupine.data.SomeImpl;
 import com.cecere.forkupine.example.spine.*;
 
 public class TestFlowCreation {
-	ExecutorFactory factory = new DepthFirstSerialExecutorFactory();
+	ExecutorFactory factory = new ExecutorFactoryImpl();
 
 	@Test
 	public void testCreateFlow(){
 		
-		Spine<Some<String>,Some<Integer>> head = factory.spineExecutor(new StringLengthSpine());
-		Spine<Some<Integer>,Some<Float>> next1 = factory.spineExecutor(new DivideBy1000Spine());
-		Spine<Some<Integer>,Some<Integer>> next2 = factory.spineExecutor(new Add100Spine());
-		Spine2<Some<Float>,Some<Integer>,None> tail = factory.spine2Executor(new LoggingFloatIntSpine());
+		Spine<Some<String>,Some<Integer>> head = factory.serialSpineExecutor(new StringLengthSpine());
+		Spine<Some<Integer>,Some<Float>> next1 = factory.serialSpineExecutor(new DivideBy1000Spine());
+		Spine<Some<Integer>,Some<Integer>> next2 = factory.serialSpineExecutor(new Add100Spine());
+		Spine2<Some<Float>,Some<Integer>,None> tail = factory.serialSpine2Executor(new LoggingFloatIntSpine());
 		
 		Some<String> testString = new SomeImpl<String>("yo ho ho and a bottle of rum");
 		
@@ -60,12 +60,12 @@ public class TestFlowCreation {
 	@Test
 	public void testCreateFlow2(){
 		
-		Spine<Some<String>,Some<Integer>> head = factory.spineExecutor(new StringLengthSpine());
-		Spine<Some<Integer>,Some<Float>> next1 = factory.spineExecutor(new DivideBy1000Spine());
-		Spine<Some<Integer>,Some<Integer>> next2 = factory.spineExecutor(new Add100Spine());
-		Spine2<Some<Float>,Some<Integer>,Some<Integer>> tail = factory.spine2Executor(new LoggingFloatIntSpineReturnLengthPrinted());
-		Spine<Some<Integer>,Some<Integer>> afterTail = factory.spineExecutor(new Add100Spine());
-		Spine<Some<Integer>,None> printInt = factory.spineExecutor(new LoggingIntSpine());
+		Spine<Some<String>,Some<Integer>> head = factory.serialSpineExecutor(new StringLengthSpine());
+		Spine<Some<Integer>,Some<Float>> next1 = factory.serialSpineExecutor(new DivideBy1000Spine());
+		Spine<Some<Integer>,Some<Integer>> next2 = factory.serialSpineExecutor(new Add100Spine());
+		Spine2<Some<Float>,Some<Integer>,Some<Integer>> tail = factory.serialSpine2Executor(new LoggingFloatIntSpineReturnLengthPrinted());
+		Spine<Some<Integer>,Some<Integer>> afterTail = factory.serialSpineExecutor(new Add100Spine());
+		Spine<Some<Integer>,None> printInt = factory.serialSpineExecutor(new LoggingIntSpine());
 		
 		Some<String> testString = new SomeImpl<String>("yo ho ho and a bottle of rum");
 		

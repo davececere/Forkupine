@@ -40,7 +40,7 @@ public class DepthFirstSerialExecutingSpine2<A extends Data,B extends Data,O ext
 	/* (non-Javadoc)
 	 * @see com.cecere.forkupine.process.Spine#process(com.cecere.forkupine.data.Data)
 	 */
-	public void process(A input1,B input2) {
+	public O process(A input1,B input2) {
 		//ignore inputs and use parameters
 		A cachedInput1 = this.param1.getData();
 		B cachedInput2 = this.param2.getData();
@@ -50,7 +50,9 @@ public class DepthFirstSerialExecutingSpine2<A extends Data,B extends Data,O ext
 			for(Spine<O, ? extends Data> s: this.nextNodes){
 				s.process(output);
 			}
+			return output;
 		}
+		return null;
 	}
 
 }

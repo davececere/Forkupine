@@ -24,18 +24,44 @@ import java.util.List;
 
 import com.cecere.forkupine.data.Data;
 import com.cecere.forkupine.data.Some;
+import com.cecere.forkupine.process.forkjoin.RecursiveSpineImpl;
 
 abstract public class SpineImpl<I extends Data,O extends Data> implements Spine<I,O> {
 	protected List<Spine<O,? extends Data>> nextNodes;
-	
+	protected Spine<? extends Data,I> prevNode;
+
 	public SpineImpl(){
 		nextNodes = new ArrayList<Spine<O,? extends Data>>();
 	}
 
-	public <V extends Data> Spine<I, O> flowsInto(Spine<O, V> child) {
+	@Override
+	public Spine<I, O> flowsInto(Spine<O, ? extends Data> child) {
 		nextNodes.add(child);
+		child.flowsFrom(this);
 		return this;
 	}
+	
+	@Override
+	public void flowsFrom(Spine<? extends Data,I> parent){
+		prevNode = parent;
+	}
 
-	abstract public void process(I input);
+	
+	/**
+	 * @return the prevNode
+	 */
+	public Spine<? extends Data, I> getPrevNode() {
+		return prevNode;
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.cecere.forkupine.process.Spine#toRecursiveSpine()
+	 */
+	@Override
+	public RecursiveSpineImpl<I, O> toRecursiveSpine() {
+		// TODO Auto-generated method stub
+		return new RecursiveSpineImpl<I,O>(this);
+	}
+	
+	abstract public O process(I input);
 }
